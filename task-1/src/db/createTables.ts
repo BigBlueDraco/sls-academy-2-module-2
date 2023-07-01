@@ -14,7 +14,7 @@ const createTokenTableQuery = `
   CREATE TABLE IF NOT EXISTS tokens (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     user_id UUID NOT NULL,
-    refreshtoken VARCHAR(255) NOT NULL,
+    refreshtoken VARCHAR(512) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id)
   );
 `;

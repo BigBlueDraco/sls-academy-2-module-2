@@ -1,6 +1,7 @@
 import express, { Express, NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import router from "./src/routes/index";
 
 import { createTables } from "./src/db/createTables";
 dotenv.config();
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({ message: err.message });
 });
+app.use("/", router);
 
 async function start() {
   try {

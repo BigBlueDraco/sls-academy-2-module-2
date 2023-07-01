@@ -7,5 +7,5 @@ export default new Pool({
   user: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
   host: process.env.POSTGRES_HOST,
-  port: +`${process.env.SERVER_PORT}` || 8080,
+  port: +`${process.env.POSTGRES_PORT}` || 5432,
 });
