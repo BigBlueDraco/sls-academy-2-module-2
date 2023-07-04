@@ -27,7 +27,6 @@ class Location {
       const res = ipToLocation.filter(
         (elem) => ipInt >= +elem.start && ipInt <= +elem.end
       );
-      console.log(res);
       console.timeLog(`${ip}`);
       return res;
     } catch (e) {}
