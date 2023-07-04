@@ -10,4 +10,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Bucket{
+  name String @id
+  Jsons JsonData[]
+}
+model JsonData{
+  name String @id
+  bucketName String
+  Bucket Bucket @relation(fields: [bucketName], references: [name], onDelete: Cascade)
+}
+
 
