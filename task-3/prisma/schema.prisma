@@ -11,11 +11,13 @@ datasource db {
 }
 
 model Bucket{
-  name String @id
+  name String @unique @id
   Jsons JsonData[]
 }
 model JsonData{
-  name String @id
+  id Int @id @default(autoincrement())
+  name String  
+  data String
   bucketName String
   Bucket Bucket @relation(fields: [bucketName], references: [name], onDelete: Cascade)
 }
