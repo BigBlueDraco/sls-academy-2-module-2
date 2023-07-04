@@ -9,9 +9,17 @@ class JsonService {
     bucketName: string,
     jsonInput: { name: string; data: string }
   ) {
-    return await prisma.jsonData.create({
-      data: { name: jsonInput.name, data: jsonInput.data, bucketName },
-    });
+    try {
+      return await prisma.jsonData.create({
+        data: {
+          name: jsonInput.name,
+          data: JSON.stringify(jsonInput.data),
+          bucketName,
+        },
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }
   async create(bucketName: string, jsonInput: any) {
     try {
@@ -21,20 +29,22 @@ class JsonService {
       if (!bucket) {
         bucket = await this.createBucket(bucketName);
       }
-      const existingJson = await prisma.jsonData.findFirst({
-        where: { name: jsonInput.name, bucketName: bucket.name },
-      });
-
+      const existingJson = await this.findOne(bucket.name, jsonInput.name);
       if (existingJson) {
+        console.log(existingJson);
         throw new Error(
           `Json with name: ${jsonInput.name} in ${bucket.name} alredy exist`
         );
       }
+      const res = await this.createJson(bucket.name, jsonInput);
+      return res;
+    } catch {}
+  }
 
-      return await this.createJson(bucket.name, jsonInput);
-    } catch {
-      return;
-    }
+  async findOne(bucketName: string, name: string) {
+    return await prisma.jsonData.findFirst({
+      where: { name, bucketName },
+    });
   }
 }
 
